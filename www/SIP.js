@@ -49,7 +49,7 @@ SIP.prototype.stopListenCall = function(success, error) {
 };
 
 SIP.prototype.incommingCall = function(success, error) {
-    exec(success, error, "SIP", "incommingcall", []);
+    exec(success, error, "SIP", "incomingcall", []);
 };
 
 SIP.prototype.answerCall = function(success, error) {
