@@ -292,9 +292,14 @@ public class SIP extends CordovaPlugin {
 
     cordova.getThreadPool().execute(new Runnable() {
       public void run() {
-        Intent intent = new Intent(); 
-        intent.setAction("com.javray.cordova.plugin.SIP.INCOMING_CALL"); 
-        pendingCallIntent = PendingIntent.getBroadcast(cordova.getActivity(), 0, intent, Intent.FILL_IN_DATA); 
+        try{
+          Intent intent = new Intent(); 
+          intent.setAction("com.javray.cordova.plugin.SIP.INCOMING_CALL"); 
+          pendingCallIntent = PendingIntent.getBroadcast(cordova.getActivity(), 0, intent, Intent.FILL_IN_DATA); 
+        }(Exception e){
+          Log.d("SIP", "listenSIP error "+ e->getMessage());
+        }
+        
         try {
           mSipManager.open(mSipProfile, pendingCallIntent, null);
         }
