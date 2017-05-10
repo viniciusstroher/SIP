@@ -41,22 +41,25 @@ public class SIPReceiver extends BroadcastReceiver {
       if (wifi == State.CONNECTED || wifi == State.CONNECTING) {
 
         Log.d("SIP", "WIFI");
+        try{
+          PowerManager pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
+          WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
+          wakeLock.acquire();
 
-        PowerManager pm = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
-        WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
-        wakeLock.acquire();
+          KeyguardManager keyguardManager = (KeyguardManager)context.getSystemService(Context.KEYGUARD_SERVICE); 
+          KeyguardLock keyguardLock =  keyguardManager.newKeyguardLock("TAG");
+          keyguardLock.disableKeyguard();
 
-        KeyguardManager keyguardManager = (KeyguardManager)context.getSystemService(Context.KEYGUARD_SERVICE); 
-        KeyguardLock keyguardLock =  keyguardManager.newKeyguardLock("TAG");
-        keyguardLock.disableKeyguard();
+          intent = new Intent();
+          intent.setAction("com.javray.cordova.plugin.SIP.INCOMING_CALL");
+          intent.setPackage(context.getPackageName());
+          intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+          intent.putExtras(extras);
 
-        intent = new Intent();
-        intent.setAction("com.javray.cordova.plugin.SIP.INCOMING_CALL");
-        intent.setPackage(context.getPackageName());
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtras(extras);
-
-        context.startActivity(intent);
+          context.startActivity(intent);
+        }catch(Exception e){
+          Log.d("SIP", "Exception: "+e.getMessage());
+        }
       }
       else {
         try {
