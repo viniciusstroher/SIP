@@ -68,8 +68,9 @@ public class SIPReceiver extends BroadcastReceiver {
           SipManager mSipManager = SipManager.newInstance(context);
           SipSession session = mSipManager.getSessionFor(intent);
           session.endCall();
-        }
-        catch (Exception e) {
+        }catch(ActivityNotFoundException e){
+          Log.d("SIP", e.toString());
+        }catch (Exception e) {
           Log.d("SIP", e.toString());
         }
       }
