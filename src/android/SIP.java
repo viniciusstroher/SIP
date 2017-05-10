@@ -297,7 +297,7 @@ public class SIP extends CordovaPlugin {
           intent.setAction("com.javray.cordova.plugin.SIP.INCOMING_CALL"); 
           pendingCallIntent = PendingIntent.getBroadcast(cordova.getActivity(), 0, intent, Intent.FILL_IN_DATA); 
         }catch(Exception e){
-          Log.d("SIP", "listenSIP error "+ e->getMessage());
+          Log.d("SIP", "listenSIP error "+ e.getMessage());
         }
         
         try {
