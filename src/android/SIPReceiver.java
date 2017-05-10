@@ -22,6 +22,7 @@ import android.util.Log;
 
 import java.util.Iterator;
 import java.util.Set;
+import android.content.ActivityNotFoundException;
 
 public class SIPReceiver extends BroadcastReceiver {
 
@@ -57,8 +58,11 @@ public class SIPReceiver extends BroadcastReceiver {
           intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
           intent.putExtras(extras);
           
-          /*
-          context.startActivity(intent);*/
+          
+          context.startActivity(intent);
+        }catch(ActivityNotFoundException e){
+           Log.d("SIP", "Exception: "+e.getMessage());
+
         }catch(Exception e){
           Log.d("SIP", "Exception: "+e.getMessage());
         }
